@@ -1,0 +1,11 @@
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\bin\Debug\netcoreapp2.1\SendEventHubMessages.deps.json
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\bin\Debug\netcoreapp2.1\SendEventHubMessages.runtimeconfig.json
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\bin\Debug\netcoreapp2.1\SendEventHubMessages.runtimeconfig.dev.json
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\bin\Debug\netcoreapp2.1\SendEventHubMessages.dll
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\obj\Debug\netcoreapp2.1\SendEventHubMessages.csprojAssemblyReference.cache
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\obj\Debug\netcoreapp2.1\SendEventHubMessages.csproj.CoreCompileInputs.cache
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\obj\Debug\netcoreapp2.1\SendEventHubMessages.AssemblyInfoInputs.cache
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\obj\Debug\netcoreapp2.1\SendEventHubMessages.AssemblyInfo.cs
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\bin\Debug\netcoreapp2.1\SendEventHubMessages.pdb
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\obj\Debug\netcoreapp2.1\SendEventHubMessages.dll
+C:\Users\lvanl\source\repos\Hub\CodeCamp\SendEventHubMessages\SendEventHubMessages\obj\Debug\netcoreapp2.1\SendEventHubMessages.pdb
