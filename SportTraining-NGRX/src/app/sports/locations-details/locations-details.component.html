@@ -1,0 +1,21 @@
+<div *ngIf="place">
+  <h2>{{ place.name }} Details</h2>
+  <div><span>id: </span>{{ place.id }}</div>
+  <div><span>sport: </span>{{ place.sportid }}</div>
+  <div>
+    <label
+      >name:
+      <input [(ngModel)]="place.name" placeholder="name" />
+    </label>
+  </div>
+  <button (click)="updateLocation()">Update</button>
+  <h2>Teams</h2>
+  <ul class="heroes">
+    <li *ngFor="let team of teams">
+      <a routerLink="/team/{{ team.id }}">
+        <span class="badge">{{ team.id }}</span> {{ team.name }}
+      </a>
+    </li>
+  </ul>
+  <button (click)="goBack()">go back</button>
+</div>

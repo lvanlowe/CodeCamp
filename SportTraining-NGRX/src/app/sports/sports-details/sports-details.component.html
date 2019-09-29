@@ -1,0 +1,36 @@
+<div *ngIf="sport">
+  <h2>{{ sport.name }} Details</h2>
+  <div><span>id: </span>{{ sport.id }}</div>
+  <div>
+    <label
+      >name:
+      <input [(ngModel)]="sport.name" placeholder="name" />
+    </label>
+  </div>
+  <div>
+    <label
+      >email:
+      <input [(ngModel)]="sport.email" placeholder="email" />
+    </label>
+  </div>
+  <button (click)="updateSports()">Update</button>
+
+  <h2>Locations</h2>
+<ul class="heroes">
+  <li *ngFor="let location of locations">
+    <a routerLink="/location/{{ location.id }}">
+      <span class="badge">{{ location.id }}</span> {{ location.name }}
+    </a>
+  </li>
+</ul>
+
+<h2>Categories</h2>
+<ul class="heroes">
+  <li *ngFor="let category of categories">
+    <a routerLink="/category/{{ category.id }}">
+      <span class="badge">{{ category.id }}</span> {{ category.name }}
+    </a>
+  </li>
+</ul>
+  <button (click)="goBack()">go back</button>
+</div>

@@ -1,0 +1,14 @@
+<div *ngIf="team">
+    <h2>{{ team.name }} Details</h2>
+    <div><span>id: </span>{{ team.id }}</div>
+    <div><span>location: </span>{{ team.locationid }}</div>
+    <div><span>category: </span>{{ team.categoryid }}</div>
+    <div>
+      <label
+        >name:
+        <input [(ngModel)]="team.name" placeholder="name" />
+      </label>
+    </div>
+    <button (click)="updateTeams()">Update</button>
+    <button (click)="goBack()">go back</button>
+  </div>
