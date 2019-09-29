@@ -20,7 +20,7 @@ export class CategoryService {
 
     getCategoriesBySport(sportid: number): Observable<Category[]> {
       // TODO: send the message _after_ fetching the heroes
-      this.messageService.add('CategoryService: fetched categories sportid=${sportid}');
+      this.messageService.add(`CategoryService: fetched categories sportid=${sportid}`);
       return this.http.get<Category[]>(`/api/categories?sportid=${sportid}`);
     }
 

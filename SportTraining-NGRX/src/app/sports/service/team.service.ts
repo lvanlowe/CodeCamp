@@ -20,13 +20,13 @@ export class TeamService {
 
     getTeamsByLocation(locationid: number): Observable<Team[]> {
       // TODO: send the message _after_ fetching the heroes
-      this.messageService.add('TeamService: fetched teams locationid=${locationid}');
+      this.messageService.add(`TeamService: fetched teams locationid=${locationid}`);
       return this.http.get<Team[]>(`/api/teams?locationid=${locationid}`);
     }
 
     getTeamsByCategory(categoryid: number): Observable<Team[]> {
       // TODO: send the message _after_ fetching the heroes
-      this.messageService.add('TeamService: fetched teams categoryid=${categoryid}');
+      this.messageService.add(`TeamService: fetched teams categoryid=${categoryid}`);
       return this.http.get<Team[]>(`/api/teams?categoryid=${categoryid}`);
     }
 

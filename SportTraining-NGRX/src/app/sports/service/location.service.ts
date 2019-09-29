@@ -22,7 +22,7 @@ export class LocationService {
 
     getLocationsBySport(sportid: number): Observable<Program[]> {
       // TODO: send the message _after_ fetching the heroes
-      this.messageService.add('LocationService: fetched location sportid=${sportid}');
+      this.messageService.add(`LocationService: fetched location sport.id=${sportid}`);
       return this.http.get<Program[]>(`/api/locations?sportid=${sportid}`);
     }
 
