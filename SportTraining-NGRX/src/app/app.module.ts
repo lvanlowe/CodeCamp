@@ -20,6 +20,13 @@ import { SportsDetailsComponent } from './sports/sports-details/sports-details.c
 import { LocationsDetailsComponent } from './sports/locations-details/locations-details.component';
 import { CategoriesDetailsComponent } from './sports/categories-details/categories-details.component';
 import { TeamsDetailsComponent } from './sports/teams-details/teams-details.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
+import * as fromSport from './sports/state/sport.reducer';
+import { SportEffects } from './sports/state/sport.effects';
 
 @NgModule({
   declarations: [
@@ -40,6 +47,17 @@ import { TeamsDetailsComponent } from './sports/teams-details/teams-details.comp
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemHeroService),
     FormsModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([AppEffects]),
+    StoreModule.forFeature(fromSport.sportFeatureKey, fromSport.reducer),
+    EffectsModule.forFeature([SportEffects]),
     // StoreDevtoolsModule.instrument({
     //   maxAge: 25,
     //   logOnly: environment.production

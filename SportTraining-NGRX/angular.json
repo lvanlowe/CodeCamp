@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "tour-of-heroes"
+  "defaultProject": "tour-of-heroes",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
