@@ -23,6 +23,7 @@
     "@ngrx/effects": "^8.3.0",
     "@ngrx/store": "^8.3.0",
     "@ngrx/store-devtools": "^8.3.0",
+    "@schematics/angular": "^8.3.6",
     "angular-in-memory-web-api": "^0.9.0",
     "core-js": "^3.2.1",
     "rxjs": "~6.5.3",
