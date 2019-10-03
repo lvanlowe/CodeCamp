@@ -1,5 +1,4 @@
-
-import { SportActions, SportActionTypes } from './sport.actions';
+import * as fromActions from './sport.actions';
 import { Sport } from 'src/app/sport';
 
 export const sportFeatureKey = 'sport';
@@ -24,10 +23,10 @@ export const initialState: SportState = {
   error: '',
 };
 
-export function reducer(state = initialState, action: SportActions): SportState {
+export function reducer(state = initialState, action: fromActions.SportUnion): SportState {
   switch (action.type) {
 
-    case SportActionTypes.LoadSports:
+    case fromActions.LoadSports.type:
       console.warn('reducer');
       return { ...state, loaded: false, loading: true };
 

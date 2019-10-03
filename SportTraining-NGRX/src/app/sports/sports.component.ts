@@ -20,7 +20,8 @@ export class SportsComponent implements OnInit {
 
   ngOnInit() {
     this.getSports();
-    this.store.dispatch(new sportActions.LoadSports());
+    this.store.dispatch(
+      sportActions.LoadSports({}));
   }
 
   getSports(): void {
