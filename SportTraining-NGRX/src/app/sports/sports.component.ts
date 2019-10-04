@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
 import { Sport } from '../sport';
 import { SportService } from './service/sport.service';
 import * as fromSport from './state/sport.reducer';
