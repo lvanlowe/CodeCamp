@@ -28,8 +28,16 @@ export function reducer(state = initialState, action: SportActions): SportState 
   switch (action.type) {
 
     case SportActionTypes.LoadSports:
-      console.warn('reducer');
       return { ...state, loaded: false, loading: true };
+
+      case SportActionTypes.LoadSportSuccess:
+        return {
+          ...state,
+          loaded: true,
+          loading: false,
+          sports: action.payload,
+          error: '',
+        }
 
     default:
       return state;
