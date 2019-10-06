@@ -25,6 +25,8 @@ export const initialState: SportState = {
 };
 
 export function reducer(state = initialState, action: SportActions): SportState {
+
+  let updatedSports: Sport[];
   switch (action.type) {
 
     case SportActionTypes.LoadSports:
@@ -44,19 +46,31 @@ export function reducer(state = initialState, action: SportActions): SportState 
 
     case SportActionTypes.GetSportSuccess:
         const sportRecord = action.payload;
-        let updatedAwards: Sport[];
         if (state.sports.find(p => p.id === sportRecord.id)) {
-            updatedAwards = state.sports.map(item =>
+            updatedSports = state.sports.map(item =>
             action.payload.id === item.id ? sportRecord : item
           );
           }
         return {
           ...state,
-          sports: updatedAwards,
+          sports: updatedSports,
           loaded: true,
           loading: false,
           currentSportID: action.payload.id,
         };
+
+        case SportActionTypes.UpdateSport:
+          updatedSports = state.sports.map(item =>
+            action.payload.id === item.id ? action.payload : item
+          );
+          return { ...state, sports: updatedSports, loaded: false, loading: true };
+
+          case SportActionTypes.UpdateSportSuccess:
+            return {
+              ...state,
+              loaded: true,
+              loading: false,
+            };
     default:
       return state;
   }
