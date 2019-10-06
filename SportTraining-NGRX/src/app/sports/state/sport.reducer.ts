@@ -19,7 +19,7 @@ export interface SportState {
 export const initialState: SportState = {
   currentSportID: 0,
   sports: [],
-  loaded: true,
+  loaded: false,
   loading: false,
   error: '',
 };
