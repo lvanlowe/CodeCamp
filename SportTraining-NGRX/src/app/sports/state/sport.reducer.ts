@@ -39,6 +39,24 @@ export function reducer(state = initialState, action: SportActions): SportState 
           error: '',
       };
 
+    case SportActionTypes.GetSport:
+      return { ...state, loaded: false, loading: true, currentSportID: action.payload };
+
+    case SportActionTypes.GetSportSuccess:
+        const sportRecord = action.payload;
+        let updatedAwards: Sport[];
+        if (state.sports.find(p => p.id === sportRecord.id)) {
+            updatedAwards = state.sports.map(item =>
+            action.payload.id === item.id ? sportRecord : item
+          );
+          }
+        return {
+          ...state,
+          sports: updatedAwards,
+          loaded: true,
+          loading: false,
+          currentSportID: action.payload.id,
+        };
     default:
       return state;
   }
