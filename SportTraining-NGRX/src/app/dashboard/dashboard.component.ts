@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Sport } from '../sport';
-import { SportService } from '../sports/service/sport.service';
 import { Store, select } from '@ngrx/store';
 import * as fromSport from '../sports/state/sport.reducer';
 import * as sportSelector from '../sports/state/sport.selector';
@@ -39,9 +38,4 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // getSports(): void {
-  //   this.sportService
-  //     .getSports()
-  //     .subscribe(sports => (this.sports = sports.slice(1, 5)));
-  // }
 }
