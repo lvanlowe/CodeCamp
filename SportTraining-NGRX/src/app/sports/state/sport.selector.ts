@@ -8,6 +8,22 @@ export const getSports = createSelector(
   state => (state ? state.sports : null)
 );
 
+export const getCurrentSportId = createSelector(
+  getSportsFeatureState,
+  state => (state ? state.currentSportID : null)
+);
+
+export const getSport = createSelector(
+  getSportsFeatureState,
+  getCurrentSportId,
+  (state, currentSportId) => {
+    if (currentSportId === null) {
+      return null;
+    }
+    return state ? state.sports.find(s => s.id === currentSportId) : null;
+  }
+);
+
 export const getSportLoadingIndicator = createSelector(
   getSportsFeatureState,
   state => (state ? state.loading : null)

@@ -6,6 +6,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 import * as sportActions from './sport.actions';
 import { Action } from '@ngrx/store';
 import { SportService } from '../service/sport.service';
+import { Sport } from 'src/app/sport';
 // import { Action } from 'rxjs/internal/scheduler/Action';
 
 
@@ -33,7 +34,18 @@ export class SportEffects {
         catchError(err => of(new sportActions.LoadSportFail(err)))
       )
     )
-  )
+  );
 
+  @Effect()
+  updateSports$: Observable<Action> = this.actions$.pipe(
+    ofType(sportActions.SportActionTypes.UpdateSport),
+    map((action: sportActions.UpdateSport) => action.payload),
+    mergeMap((sport: Sport) =>
+      this.sportService.updateSport(sport).pipe(
+        map(sports => new sportActions.UpdateSportSuccess()),
+        catchError(err => of(new sportActions.UpdateSportFail(err)))
+      )
+    )
+  );
 
 }

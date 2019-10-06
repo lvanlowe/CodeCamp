@@ -40,7 +40,7 @@ export function reducer(state = initialState, action: SportActions): SportState 
       };
 
     case SportActionTypes.GetSport:
-      return { ...state, loaded: false, loading: true, currentSportID: action.payload };
+      return { ...state, currentSportID: action.payload };
 
     case SportActionTypes.GetSportSuccess:
         const sportRecord = action.payload;

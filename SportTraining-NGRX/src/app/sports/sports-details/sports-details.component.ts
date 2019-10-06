@@ -8,6 +8,10 @@ import { Program } from 'src/app/location';
 import { LocationService } from '../service/location.service';
 import { Category } from 'src/app/category';
 import { CategoryService } from '../service/category.service';
+import { Store, select } from '@ngrx/store';
+import * as fromSport from '../state/sport.reducer';
+import * as sportSelector from '../state/sport.selector';
+import * as sportActions from '../state/sport.actions';
 
 @Component({
   selector: 'app-sports-details',
@@ -23,6 +27,7 @@ export class SportsDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private store: Store<fromSport.State>,
     private sportService: SportService,
     private locationService: LocationService,
     private categoryService: CategoryService,
@@ -37,7 +42,12 @@ export class SportsDetailsComponent implements OnInit {
 
   getSport(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.sportService.getSport(id).subscribe(sport => (this.sport = sport));
+    this.store.dispatch(new sportActions.GetSport(id));
+    // this.sportService.getSport(id).subscribe(sport => (this.sport = sport));
+    const sportDetail$ = this.store.pipe(select(sportSelector.getSport));
+    sportDetail$.subscribe(results => {
+      this.sport = Object.assign({}, results);
+    });
     return id;
   }
 
@@ -50,8 +60,8 @@ export class SportsDetailsComponent implements OnInit {
   }
 
   updateSports(): void {
-    this.sportService.updateSport(this.sport);
-    this.sportService.getSport(this.sport.id).subscribe(sport => (this.sport = sport));
+    this.store.dispatch(new sportActions.UpdateSport(this.sport));
+    // this.sportService.getSport(this.sport.id).subscribe(sport => (this.sport = sport));
     console.warn(this.sport);
   }
 
