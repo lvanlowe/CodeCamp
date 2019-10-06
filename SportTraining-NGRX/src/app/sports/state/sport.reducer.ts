@@ -9,7 +9,7 @@ export interface State {
 }
 
 export interface SportState {
-  currentSportID: number;
+  currentSportid: number;
   sports: Sport[];
   loaded: boolean;
   loading: boolean;
@@ -17,7 +17,7 @@ export interface SportState {
 }
 
 export const initialState: SportState = {
-  currentSportID: 0,
+  currentSportid: 0,
   sports: [],
   loaded: false,
   loading: false,
@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: SportActions): SportState 
       };
 
     case SportActionTypes.GetSport:
-      return { ...state, currentSportID: action.payload };
+      return { ...state, currentSportid: action.payload };
 
     case SportActionTypes.GetSportSuccess:
         const sportRecord = action.payload;
@@ -56,7 +56,7 @@ export function reducer(state = initialState, action: SportActions): SportState 
           sports: updatedSports,
           loaded: true,
           loading: false,
-          currentSportID: action.payload.id,
+          currentSportid: action.payload.id,
         };
 
         case SportActionTypes.UpdateSport:

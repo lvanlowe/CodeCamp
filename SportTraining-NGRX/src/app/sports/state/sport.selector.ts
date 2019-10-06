@@ -10,17 +10,17 @@ export const getSports = createSelector(
 
 export const getCurrentSportId = createSelector(
   getSportsFeatureState,
-  state => (state ? state.currentSportID : null)
+  state => (state ? state.currentSportid : null)
 );
 
 export const getSport = createSelector(
   getSportsFeatureState,
   getCurrentSportId,
-  (state, currentSportId) => {
-    if (currentSportId === null) {
+  (state, currentSportid) => {
+    if (currentSportid === null) {
       return null;
     }
-    return state ? state.sports.find(s => s.id === currentSportId) : null;
+    return state ? state.sports.find(s => s.id === currentSportid) : null;
   }
 );
 

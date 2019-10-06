@@ -8,16 +8,16 @@ export interface State extends fromRoot.State {
 export const locationFeatureKey = 'location';
 
 export interface LocationState {
-  currentLocationID: number;
-  Locations: Program[];
+  currentLocationid: number;
+  locations: Program[];
   loaded: boolean;
   loading: boolean;
   error: string;
 }
 
 export const initialState: LocationState = {
-  currentLocationID: 0,
-  Locations: [],
+  currentLocationid: 0,
+  locations: [],
   loaded: false,
   loading: false,
   error: '',
@@ -35,33 +35,33 @@ export function reducer(state = initialState, action: LocationActions): Location
           ...state,
           loaded: true,
           loading: false,
-          Locations: action.payload,
+          locations: action.payload,
           error: '',
       };
 
     case LocationActionTypes.GetLocation:
-      return { ...state, currentLocationID: action.payload };
+      return { ...state, currentLocationid: action.payload };
 
     case LocationActionTypes.GetLocationSuccess:
         const LocationRecord = action.payload;
-        if (state.Locations.find(p => p.id === LocationRecord.id)) {
-            updatedLocations = state.Locations.map(item =>
+        if (state.locations.find(p => p.id === LocationRecord.id)) {
+            updatedLocations = state.locations.map(item =>
             action.payload.id === item.id ? LocationRecord : item
           );
           }
         return {
           ...state,
-          Locations: updatedLocations,
+          locations: updatedLocations,
           loaded: true,
           loading: false,
-          currentLocationID: action.payload.id,
+          currentLocationid: action.payload.id,
         };
 
         case LocationActionTypes.UpdateLocation:
-          updatedLocations = state.Locations.map(item =>
+          updatedLocations = state.locations.map(item =>
             action.payload.id === item.id ? action.payload : item
           );
-          return { ...state, Locations: updatedLocations, loaded: false, loading: true };
+          return { ...state, locations: updatedLocations, loaded: false, loading: true };
 
           case LocationActionTypes.UpdateLocationSuccess:
             return {
