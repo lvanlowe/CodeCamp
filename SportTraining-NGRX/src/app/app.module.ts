@@ -29,6 +29,8 @@ import * as fromSport from './sports/state/sport.reducer';
 import { SportEffects } from './sports/state/sport.effects';
 import * as fromLocation from './sports/locations-details/state/location.reducer';
 import { LocationEffects } from './sports/locations-details/state/location.effects';
+import * as fromCategory from './sports/categories-details/state/category.reducer';
+import { CategoryEffects } from './sports/categories-details/state/category.effects';
 
 @NgModule({
   declarations: [
@@ -59,8 +61,9 @@ import { LocationEffects } from './sports/locations-details/state/location.effec
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([AppEffects]),
     StoreModule.forFeature(fromSport.sportFeatureKey, fromSport.reducer),
-    EffectsModule.forFeature([SportEffects, LocationEffects]),
+    EffectsModule.forFeature([SportEffects, LocationEffects, CategoryEffects]),
     StoreModule.forFeature(fromLocation.locationFeatureKey, fromLocation.reducer),
+    StoreModule.forFeature(fromCategory.categoryFeatureKey, fromCategory.reducer),
     // StoreDevtoolsModule.instrument({
     //   maxAge: 25,
     //   logOnly: environment.production
