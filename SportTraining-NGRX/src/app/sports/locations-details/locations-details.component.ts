@@ -60,12 +60,13 @@ export class LocationsDetailsComponent implements OnInit {
     return id;
   }
 
-  getTeams(locationid: number): void {
-    this.teamService.getTeamsByLocation(locationid).subscribe(teams => (this.teams = teams));
-  }
+  // getTeams(locationid: number): void {
+  //   this.teamService.getTeamsByLocation(locationid).subscribe(teams => (this.teams = teams));
+  // }
 
   updateLocation(): void {
-    this.locationService.updateLocation(this.place);
+    this.store.dispatch(new locationActions.UpdateLocation(this.place));
+    // this.locationService.updateLocation(this.place);
   }
 
   goBack(): void {
