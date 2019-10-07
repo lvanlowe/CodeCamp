@@ -3,8 +3,6 @@ import { Category } from 'src/app/category';
 import { Team } from 'src/app/team';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { TeamService } from '../service/team.service';
-import { CategoryService } from '../service/category.service';
 import { Store, select } from '@ngrx/store';
 import * as fromCategory from './state/category.reducer';
 import * as categorySelector from './state/category.selector';
@@ -27,8 +25,6 @@ export class CategoriesDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<fromCategory.State>,
-    private categoryService: CategoryService,
-    private teamService: TeamService,
     private location: Location
   ) {}
 
@@ -44,13 +40,11 @@ export class CategoriesDetailsComponent implements OnInit {
         });
       }
     });
-    // this.getTeams(categoryid);
   }
 
   getCategory(): number {
     const id = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new categoryActions.GetCategory(id));
-    // this.categoryService.getCategory(id).subscribe(category => (this.category = category));
     const categoryDetail$ = this.store.pipe(select(categorySelector.getCategory));
     categoryDetail$.subscribe(results => {
       this.category = Object.assign({}, results);
@@ -59,13 +53,8 @@ export class CategoriesDetailsComponent implements OnInit {
     return id;
   }
 
-  // getTeams(categoryid: number): void {
-  //   this.teamService.getTeamsByCategory(categoryid).subscribe(teams => (this.teams = teams));
-  // }
-
   updateCategory(): void {
     this.store.dispatch(new categoryActions.UpdateCategory(this.category));
-    // this.categoryService.updateCategory(this.category);
   }
 
   goBack(): void {

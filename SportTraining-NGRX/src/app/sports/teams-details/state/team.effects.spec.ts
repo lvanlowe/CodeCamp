@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
+
 
 import { TeamEffects } from './team.effects';
 
 describe('TeamEffects', () => {
-  let actions$: Observable<any>;
+
   let effects: TeamEffects;
 
   beforeEach(() => {

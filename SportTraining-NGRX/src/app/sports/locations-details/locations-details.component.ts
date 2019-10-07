@@ -3,8 +3,6 @@ import { Program } from 'src/app/location';
 import { Team } from 'src/app/team';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { LocationService } from '../service/location.service';
-import { TeamService } from '../service/team.service';
 import { Store, select } from '@ngrx/store';
 import * as fromLocation from '../locations-details/state/location.reducer';
 import * as locationSelector from '../locations-details/state/location.selector';
@@ -27,8 +25,6 @@ export class LocationsDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<fromLocation.State>,
-    private locationService: LocationService,
-    private teamService: TeamService,
     private location: Location
   ) {}
 
@@ -44,29 +40,21 @@ export class LocationsDetailsComponent implements OnInit {
         });
       }
     });
-    // this.getTeams(locationid);
   }
 
   getLocation(): number {
     const id = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new locationActions.GetLocation(id));
-    // this.sportService.getSport(id).subscribe(sport => (this.sport = sport));
     const locationDetail$ = this.store.pipe(select(locationSelector.getLocation));
     locationDetail$.subscribe(results => {
       this.place = Object.assign({}, results);
     });
     this.store.dispatch(new teamActions.LoadTeamsLocation(id));
-    // this.locationService.getLocation(id).subscribe(location => (this.place = location));
     return id;
   }
 
-  // getTeams(locationid: number): void {
-  //   this.teamService.getTeamsByLocation(locationid).subscribe(teams => (this.teams = teams));
-  // }
-
   updateLocation(): void {
     this.store.dispatch(new locationActions.UpdateLocation(this.place));
-    // this.locationService.updateLocation(this.place);
   }
 
   goBack(): void {
