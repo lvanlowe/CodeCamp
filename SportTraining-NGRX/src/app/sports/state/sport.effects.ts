@@ -1,24 +1,65 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+// import * as sportActions from './sport.actions';
 
-import { concatMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
+import { concatMap, mergeMap, map, catchError, exhaustMap } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
 // import { SportActionTypes, SportActions } from './sport.actions';
 import * as fromActions from './sport.actions';
+import { SportService } from '../service/sport.service';
+import { Action } from '@ngrx/store';
+import { Sport } from 'src/app/sport';
 
 
 @Injectable()
 export class SportEffects {
 
-
-  // @Effect()
-  // loadSports$ = this.actions$.pipe(
-  //   ofType(fromActions.LoadSports.type),
-  //   /** An EMPTY observable only emits completion. Replace with your own observable API request */
-  //   concatMap(() => EMPTY)
-  // );
+  constructor(private sportService: SportService, private actions$: Actions) {}
 
 
-  // constructor(private actions$: Actions<SportActions>) {}
+  @Effect()
+  loadSport$: Observable<Action> = this.actions$.pipe(
+    ofType(fromActions.LoadSports.type),
+    exhaustMap((sportActions: any) =>
+      this.sportService
+        .getSports()
+        .pipe(
+          map((entities: Sport[]) =>
+            fromActions.LoadSportSuccess({
+              sport: entities,
+            })
+          ),
+          catchError(({ message }) =>
+            of(
+              fromActions.UpdateSportFail({
+                error: message,
+              })
+            )
+          )
+        )
+    )
+  );
 
+  @Effect()
+  updateSport$: Observable<Action> = this.actions$.pipe(
+    ofType(fromActions.UpdateSports.type),
+    exhaustMap((sportActions: any) =>
+      this.sportService
+        .updateSport(sportActions.payload.sport)
+        .pipe(
+          map((entities: Sport) =>
+            fromActions.UpdateSportSuccess({
+              sport: entities,
+            })
+          ),
+          catchError(({ message }) =>
+            of(
+              fromActions.UpdateSportFail({
+                error: message,
+              })
+            )
+          )
+        )
+    )
+  );
 }
