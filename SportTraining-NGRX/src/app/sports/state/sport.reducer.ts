@@ -30,6 +30,14 @@ export const initialState: SportState = sportAdapter.getInitialState(
 );
 
 
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal
+
+} = sportAdapter.getSelectors();
+
 export function reducer(state = initialState, action: fromActions.SportUnion): SportState {
   switch (action.type) {
 
@@ -61,4 +69,5 @@ export function reducer(state = initialState, action: fromActions.SportUnion): S
     default:
       return state;
   }
+
 }
