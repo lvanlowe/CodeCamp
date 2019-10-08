@@ -32,22 +32,6 @@ export const UpdateSportFail = createAction(
   (payload: { error: string }) => ({ payload })
 );
 
-export const GetSport  = createAction(
-  '[Sport] Get Sport',
-  (payload: { sportid: number }) => ({ payload })
-);
-
-export const GetSportSuccess  = createAction(
-  '[Sport] Get Sport Success',
-  (payload: { sport: Sport }) => ({ payload })
-);
-
-export const GetSportFail = createAction(
-  '[Sport] Get Sport Fail',
-  (payload: { error: string }) => ({ payload })
-);
-
-
 
 const SportActions = union({
   LoadSports,
@@ -56,9 +40,6 @@ const SportActions = union({
   UpdateSports,
   UpdateSportSuccess,
   UpdateSportFail,
-  GetSport,
-  GetSportSuccess,
-  GetSportFail
-})
+});
 
 export type SportUnion = typeof SportActions;

@@ -35,7 +35,29 @@ export function reducer(state = initialState, action: fromActions.SportUnion): S
 
     case fromActions.LoadSports.type:
       return { ...state, loaded: false, loading: true };
-
+    case fromActions.LoadSportSuccess.type:
+        return {
+          ...sportAdapter.addAll(
+            action.payload.sport,
+            state
+          ),
+            loaded: true,
+            loading: false,
+            error: '',
+        };
+    case fromActions.UpdateSports.type:
+        return {
+          ...sportAdapter.upsertOne(
+          action.payload.sport,
+          state
+        ),
+         loaded: false, loading: true };
+    case fromActions.UpdateSportSuccess.type:
+        return {
+                ...state,
+                loaded: true,
+                loading: false,
+              };
     default:
       return state;
   }
