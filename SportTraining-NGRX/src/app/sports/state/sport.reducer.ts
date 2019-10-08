@@ -23,7 +23,7 @@ export interface SportState
 export const initialState: SportState = sportAdapter.getInitialState(
   {
     currentSportID: 0,
-    loaded: true,
+    loaded: false,
     loading: false,
     error: '',
   }
@@ -31,11 +31,10 @@ export const initialState: SportState = sportAdapter.getInitialState(
 
 
 export const {
-  selectAll,
-  selectEntities,
-  selectIds,
-  selectTotal
-
+  selectIds: selectArticleIds,
+  selectEntities: selectArticleEntities,
+  selectAll: selectAllSport,
+  selectTotal: articlesCount
 } = sportAdapter.getSelectors();
 
 export function reducer(state = initialState, action: fromActions.SportUnion): SportState {
@@ -71,3 +70,11 @@ export function reducer(state = initialState, action: fromActions.SportUnion): S
   }
 
 }
+
+export const getLoading = (
+  state: SportState
+) => (state ? state.loading : null);
+
+export const getLoaded = (
+  state: SportState
+) => (state ? state.loaded : null);

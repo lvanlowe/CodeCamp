@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-// import * as sportActions from './sport.actions';
 
-import { concatMap, mergeMap, map, catchError, exhaustMap } from 'rxjs/operators';
-import { EMPTY, Observable, of } from 'rxjs';
-// import { SportActionTypes, SportActions } from './sport.actions';
+import {  map, catchError, exhaustMap } from 'rxjs/operators';
+import {  Observable, of } from 'rxjs';
+
 import * as fromActions from './sport.actions';
 import { SportService } from '../service/sport.service';
 import { Action } from '@ngrx/store';
