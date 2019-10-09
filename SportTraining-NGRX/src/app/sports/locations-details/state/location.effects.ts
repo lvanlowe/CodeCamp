@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { exhaustMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import * as locationActions from './location.actions';
+import * as fromActions from './location.actions';
 import { LocationService } from '../../service/location.service';
 import { Action } from '@ngrx/store';
 import { Program } from 'src/app/location';
@@ -15,26 +15,50 @@ export class LocationEffects {
   constructor(private locationService: LocationService, private actions$: Actions) {}
 
   @Effect()
-  loadLocationsBySport$: Observable<Action> = this.actions$.pipe(
-    ofType(locationActions.LocationActionTypes.LoadLocations),
-    map((action: locationActions.LoadLocations) => action.payload),
-    mergeMap((sportid: number) =>
-      this.locationService.getLocationsBySport(sportid).pipe(
-        map(locations => new locationActions.LoadLocationSuccess(locations)),
-        catchError(err => of(new locationActions.LoadLocationFail(err)))
-      )
+  loadLocations$: Observable<Action> = this.actions$.pipe(
+    ofType(fromActions.LoadLocations.type),
+    exhaustMap((LocationsActions: any) =>
+      this.locationService
+        .getLocations()
+        .pipe(
+          map((entities: Program[]) =>
+            fromActions.LoadLocationSuccess({
+              locations: entities,
+            })
+          ),
+          catchError(({ message }) =>
+            of(
+              fromActions.UpdateLocationFail({
+                error: message,
+              })
+            )
+          )
+        )
     )
   );
 
   @Effect()
   updateLocations$: Observable<Action> = this.actions$.pipe(
-    ofType(locationActions.LocationActionTypes.UpdateLocation),
-    map((action: locationActions.UpdateLocation) => action.payload),
-    mergeMap((location: Program) =>
-      this.locationService.updateLocation(location).pipe(
-        map(locations => new locationActions.UpdateLocationSuccess()),
-        catchError(err => of(new locationActions.UpdateLocationFail(err)))
-      )
+    ofType(fromActions.UpdateLocations.type),
+    exhaustMap((locationActions: any) =>
+      this.locationService
+        .updateLocation(locationActions.payload.location)
+        .pipe(
+          map((entities: Program) =>
+            fromActions.UpdateLocationSuccess({
+              Locations: entities,
+            })
+          ),
+          catchError(({ message }) =>
+            of(
+              fromActions.UpdateLocationFail({
+                error: message,
+              })
+            )
+          )
+        )
     )
   );
+
+ 
 }
