@@ -14,7 +14,7 @@ export const sportAdapter: EntityAdapter<
 
 export interface SportState
   extends EntityState<Sport> {
-    currentSportID: number;
+    currentid: number;
     loaded: boolean;
     loading: boolean;
     error: string;
@@ -22,7 +22,7 @@ export interface SportState
 
 export const initialState: SportState = sportAdapter.getInitialState(
   {
-    currentSportID: 0,
+    currentid: 0,
     loaded: false,
     loading: false,
     error: '',
@@ -32,7 +32,7 @@ export const initialState: SportState = sportAdapter.getInitialState(
 
 export const {
   selectIds: selectArticleIds,
-  selectEntities: selectArticleEntities,
+  selectEntities: selectSportEntities,
   selectAll: selectAllSport,
   selectTotal: articlesCount
 } = sportAdapter.getSelectors();
@@ -65,6 +65,10 @@ export function reducer(state = initialState, action: fromActions.SportUnion): S
                 loaded: true,
                 loading: false,
               };
+              case fromActions.SetCurrentSport.type:
+                return {
+                  ...state,
+                 currentid: action.payload.id};
     default:
       return state;
   }
@@ -78,3 +82,7 @@ export const getLoading = (
 export const getLoaded = (
   state: SportState
 ) => (state ? state.loaded : null);
+
+export const getCurrentid = (
+  state: SportState
+) => (state ? state.currentid : null);

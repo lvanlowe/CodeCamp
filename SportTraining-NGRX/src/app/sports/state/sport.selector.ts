@@ -15,4 +15,18 @@ export const getSportLoadedIndicator = createSelector(
   fromSportState.getLoaded
 );
 
+export const getSportCurrentid = createSelector(
+  getSportState,
+  fromSportState.getCurrentid
+);
+
 export const selectAllSports = createSelector(getSportState, fromSportState.selectAllSport);
+
+export const selectSportEntities = createSelector(getSportState, fromSportState.selectSportEntities);
+
+export const selectSport = createSelector(
+  getSportCurrentid,
+  selectSportEntities,
+  (id, sportEntities) => sportEntities[id]
+);
+

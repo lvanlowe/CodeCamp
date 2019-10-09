@@ -32,6 +32,10 @@ export const UpdateSportFail = createAction(
   (payload: { error: string }) => ({ payload })
 );
 
+export const SetCurrentSport = createAction(
+  '[Sport] Set Current Sport',
+  (payload: { id: number }) => ({ payload })
+);
 
 const SportActions = union({
   LoadSports,
@@ -40,6 +44,7 @@ const SportActions = union({
   UpdateSports,
   UpdateSportSuccess,
   UpdateSportFail,
+  SetCurrentSport,
 });
 
 export type SportUnion = typeof SportActions;
