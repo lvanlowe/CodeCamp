@@ -27,6 +27,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './app.effects';
 import * as fromSport from './sports/state/sport.reducer';
 import { SportEffects } from './sports/state/sport.effects';
+import * as fromLocation from './sports/locations-details/state/location.reducer';
+import { LocationEffects } from './sports/locations-details/state/location.effects';
+import * as fromCategory from './sports/categories-details/state/category.reducer';
+import { CategoryEffects } from './sports/categories-details/state/category.effects';
+import * as fromTeam from './sports/teams-details/state/team.reducer';
+import { TeamEffects } from './sports/teams-details/state/team.effects';
 
 @NgModule({
   declarations: [
@@ -57,7 +63,10 @@ import { SportEffects } from './sports/state/sport.effects';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([AppEffects]),
     StoreModule.forFeature(fromSport.sportFeatureKey, fromSport.reducer),
-    EffectsModule.forFeature([SportEffects]),
+    EffectsModule.forFeature([SportEffects, LocationEffects, CategoryEffects, TeamEffects]),
+    StoreModule.forFeature(fromLocation.locationFeatureKey, fromLocation.reducer),
+    StoreModule.forFeature(fromCategory.categoryFeatureKey, fromCategory.reducer),
+    StoreModule.forFeature(fromTeam.teamFeatureKey, fromTeam.reducer),
     // StoreDevtoolsModule.instrument({
     //   maxAge: 25,
     //   logOnly: environment.production
