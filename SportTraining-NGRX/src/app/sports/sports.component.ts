@@ -13,6 +13,7 @@ import { Store, select } from '@ngrx/store';
 export class SportsComponent implements OnInit {
 
   sports: Sport[];
+  sport: Sport;
   isLoading: boolean;
   isLoaded: boolean;
 
@@ -35,10 +36,40 @@ export class SportsComponent implements OnInit {
         const sportDetails$ = this.store.select(sportSelector.selectAllSports);
         sportDetails$.subscribe(results => {
           this.sports = results;
+          // this.sport = {id: 4, name: 'kan'};
+          // this.store.dispatch(
+          //   sportActions.UpdateSports({sport: {id: 4, name: 'kan'}}));
         });
-      }
-    });
 
-  }
+        // const sport$ = this.store.select(sportSelector.selectSport(1));
+        // sport$.subscribe(results => {
+        //   this.sport = results;
+        //   console.warn(this.sport);
+        // });
 
-}
+      //   const  id = 1;
+
+      //   this.store.dispatch(
+      //     sportActions.SetCurrentSport({id: 2}));
+      // this.store.dispatch(
+      //      sportActions.UpdateSports({sport: {id:4, name: 'bbn'}}));
+      //   const sport1$ =this.store.pipe(
+      //     select(sportSelector.selectSport));
+
+          // sport1$.subscribe(results => {
+          //   this.sport = results;
+          //   console.warn(results);
+          //   results.name = 'van11@aol.com';
+          //   this.store.dispatch(
+          //    sportActions.UpdateSports({sport: results}));
+          // });
+    // sport1$.subscribe(results => {
+
+    //   this.sport = Object.assign({}, results);
+    //   this.sport.name = 'van11@aol.com';
+    //   console.warn(this.sport);
+    //   this.store.dispatch(
+    //        sportActions.UpdateSports({sport: this.sport}));
+
+    //   });
+  }});}}
