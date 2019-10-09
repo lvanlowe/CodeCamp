@@ -1,77 +1,51 @@
-import { Action } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import { Program } from 'src/app/location';
 
-export enum LocationActionTypes {
-  LoadLocations = '[Location] Load Locations',
-  LoadLocationSuccess = '[Location] Load Location Success',
-  LoadLocationFail = '[Location] Load Location Fail',
-  UpdateLocation = '[Location] Update Location',
-  UpdateLocationSuccess = '[Location] Update Location Success',
-  UpdateLocationFail = '[Location] Update Location Fail',
-  GetLocation = '[Location] Get Location',
-  GetLocationSuccess = '[Location] Get Location Success',
-  GetLocationFail = '[Location] Get Location Fail',
-}
 
-export class LoadLocations implements Action {
-  readonly type = LocationActionTypes.LoadLocations;
+export const LoadLocations  = createAction(
+  '[Location] Load Locations',
+  (payload: { }) => ({ payload })
+);
 
-  constructor(public payload: number) {}
-}
+export const LoadLocationSuccess  = createAction(
+  '[Location] Load Location Success',
+  (payload: { location: Program[] }) => ({ payload })
+);
 
-export class LoadLocationSuccess implements Action {
-  readonly type = LocationActionTypes.LoadLocationSuccess;
+export const LoadLocationFail = createAction(
+  '[Location] Load Location Fail',
+  (payload: { error: string }) => ({ payload })
+);
 
-  constructor(public payload: Program[]) {}
-}
+export const UpdateLocations  = createAction(
+  '[Location] Update Locations',
+  (payload: { location: Program }) => ({ payload })
+);
 
-export class LoadLocationFail implements Action {
-  readonly type = LocationActionTypes.LoadLocationFail;
+export const UpdateLocationSuccess  = createAction(
+  '[Location] Update Location Success',
+  (payload: { }) => ({ payload })
+);
 
-  constructor(public payload: string) {}
-}
+export const UpdateLocationFail = createAction(
+  '[Location] Update Location Fail',
+  (payload: { error: string }) => ({ payload })
+);
 
-export class UpdateLocation implements Action {
-  readonly type = LocationActionTypes.UpdateLocation;
+export const SetCurrentLocation = createAction(
+  '[Location] Set Current Location',
+  (payload: { id: number }) => ({ payload })
+);
 
-  constructor(public payload: Program) {}
-}
+const LocationActions = union({
+  LoadLocations,
+  LoadLocationSuccess,
+  LoadLocationFail,
+  UpdateLocations,
+  UpdateLocationSuccess,
+  UpdateLocationFail,
+  SetCurrentLocation,
+});
 
-export class UpdateLocationSuccess implements Action {
-  readonly type = LocationActionTypes.UpdateLocationSuccess;
+export type LocationUnion = typeof LocationActions;
 
-}
-
-export class UpdateLocationFail implements Action {
-  readonly type = LocationActionTypes.UpdateLocationFail;
-
-  constructor(public payload: string) {}
-}
-export class GetLocation implements Action {
-  readonly type = LocationActionTypes.GetLocation;
-
-  constructor(public payload: number) {}
-}
-
-export class GetLocationSuccess implements Action {
-  readonly type = LocationActionTypes.GetLocationSuccess;
-
-  constructor(public payload: Program) {}
-}
-
-export class GetLocationFail implements Action {
-  readonly type = LocationActionTypes.GetLocationFail;
-
-  constructor(public payload: string) {}
-}
-
-
-export type LocationActions = LoadLocations
-| LoadLocationSuccess
-| LoadLocationFail
-| UpdateLocation
-| UpdateLocationSuccess
-| UpdateLocationFail
-| GetLocation
-| GetLocationSuccess
-| GetLocationFail;

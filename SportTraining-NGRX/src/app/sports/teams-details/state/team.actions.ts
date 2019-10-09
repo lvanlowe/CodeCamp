@@ -1,85 +1,51 @@
-import { Action } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import { Team } from 'src/app/team';
 
-export enum TeamActionTypes {
-  LoadTeamsLocation = '[Team] Load Teams Location',
-  LoadTeamsCategory = '[Team] Load Teams Category',
-  LoadTeamSuccess = '[Team] Load Team Success',
-  LoadTeamFail = '[Team] Load Team Fail',
-  UpdateTeam = '[Team] Update Team',
-  UpdateTeamSuccess = '[Team] Update Team Success',
-  UpdateTeamFail = '[Team] Update Team Fail',
-  GetTeam = '[Team] Get Team',
-  GetTeamSuccess = '[Team] Get Team Success',
-  GetTeamFail = '[Team] Get Team Fail',
-}
 
-export class LoadTeamsLocation implements Action {
-  readonly type = TeamActionTypes.LoadTeamsLocation;
+export const LoadTeams  = createAction(
+  '[Team] Load Teams',
+  (payload: { }) => ({ payload })
+);
 
-  constructor(public payload: number) {}
-}
+export const LoadTeamSuccess  = createAction(
+  '[Team] Load Team Success',
+  (payload: { team: Team[] }) => ({ payload })
+);
 
-export class LoadTeamsCategory implements Action {
-  readonly type = TeamActionTypes.LoadTeamsCategory;
+export const LoadTeamFail = createAction(
+  '[Team] Load Team Fail',
+  (payload: { error: string }) => ({ payload })
+);
 
-  constructor(public payload: number) {}
-}
+export const UpdateTeams  = createAction(
+  '[Team] Update Teams',
+  (payload: { team: Team }) => ({ payload })
+);
 
-export class LoadTeamSuccess implements Action {
-  readonly type = TeamActionTypes.LoadTeamSuccess;
+export const UpdateTeamSuccess  = createAction(
+  '[Team] Update Team Success',
+  (payload: { }) => ({ payload })
+);
 
-  constructor(public payload: Team[]) {}
-}
+export const UpdateTeamFail = createAction(
+  '[Team] Update Team Fail',
+  (payload: { error: string }) => ({ payload })
+);
 
-export class LoadTeamFail implements Action {
-  readonly type = TeamActionTypes.LoadTeamFail;
+export const SetCurrentTeam = createAction(
+  '[Team] Set Current Team',
+  (payload: { id: number }) => ({ payload })
+);
 
-  constructor(public payload: string) {}
-}
+const TeamActions = union({
+  LoadTeams,
+  LoadTeamSuccess,
+  LoadTeamFail,
+  UpdateTeams,
+  UpdateTeamSuccess,
+  UpdateTeamFail,
+  SetCurrentTeam,
+});
 
-export class UpdateTeam implements Action {
-  readonly type = TeamActionTypes.UpdateTeam;
+export type TeamUnion = typeof TeamActions;
 
-  constructor(public payload: Team) {}
-}
-
-export class UpdateTeamSuccess implements Action {
-  readonly type = TeamActionTypes.UpdateTeamSuccess;
-
-}
-
-export class UpdateTeamFail implements Action {
-  readonly type = TeamActionTypes.UpdateTeamFail;
-
-  constructor(public payload: string) {}
-}
-export class GetTeam implements Action {
-  readonly type = TeamActionTypes.GetTeam;
-
-  constructor(public payload: number) {}
-}
-
-export class GetTeamSuccess implements Action {
-  readonly type = TeamActionTypes.GetTeamSuccess;
-
-  constructor(public payload: Team) {}
-}
-
-export class GetTeamFail implements Action {
-  readonly type = TeamActionTypes.GetTeamFail;
-
-  constructor(public payload: string) {}
-}
-
-
-export type TeamActions = LoadTeamsLocation
-| LoadTeamsCategory
-| LoadTeamSuccess
-| LoadTeamFail
-| UpdateTeam
-| UpdateTeamSuccess
-| UpdateTeamFail
-| GetTeam
-| GetTeamSuccess
-| GetTeamFail;

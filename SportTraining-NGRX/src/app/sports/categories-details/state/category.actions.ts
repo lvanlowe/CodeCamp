@@ -1,77 +1,51 @@
-import { Action } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import { Category } from 'src/app/category';
 
-export enum CategoryActionTypes {
-  LoadCategories = '[Category] Load Categories',
-  LoadCategorySuccess = '[Category] Load Category Success',
-  LoadCategoryFail = '[Category] Load Category Fail',
-  UpdateCategory = '[Category] Update Category',
-  UpdateCategorySuccess = '[Category] Update Category Success',
-  UpdateCategoryFail = '[Category] Update Category Fail',
-  GetCategory = '[Category] Get Category',
-  GetCategorySuccess = '[Category] Get Category Success',
-  GetCategoryFail = '[Category] Get Category Fail',
-}
 
-export class LoadCategories implements Action {
-  readonly type = CategoryActionTypes.LoadCategories;
+export const LoadCategories  = createAction(
+  '[Category] Load Categories',
+  (payload: { }) => ({ payload })
+);
 
-  constructor(public payload: number) {}
-}
+export const LoadCategorySuccess  = createAction(
+  '[Category] Load Category Success',
+  (payload: { category: Category[] }) => ({ payload })
+);
 
-export class LoadCategorySuccess implements Action {
-  readonly type = CategoryActionTypes.LoadCategorySuccess;
+export const LoadCategoryFail = createAction(
+  '[Category] Load Category Fail',
+  (payload: { error: string }) => ({ payload })
+);
 
-  constructor(public payload: Category[]) {}
-}
+export const UpdateCategories  = createAction(
+  '[Category] Update Categories',
+  (payload: { category: Category }) => ({ payload })
+);
 
-export class LoadCategoryFail implements Action {
-  readonly type = CategoryActionTypes.LoadCategoryFail;
+export const UpdateCategorySuccess  = createAction(
+  '[Category] Update Category Success',
+  (payload: { }) => ({ payload })
+);
 
-  constructor(public payload: string) {}
-}
+export const UpdateCategoryFail = createAction(
+  '[Category] Update Category Fail',
+  (payload: { error: string }) => ({ payload })
+);
 
-export class UpdateCategory implements Action {
-  readonly type = CategoryActionTypes.UpdateCategory;
+export const SetCurrentCategory = createAction(
+  '[Category] Set Current Category',
+  (payload: { id: number }) => ({ payload })
+);
 
-  constructor(public payload: Category) {}
-}
+const CategoryActions = union({
+  LoadCategories,
+  LoadCategorySuccess,
+  LoadCategoryFail,
+  UpdateCategories,
+  UpdateCategorySuccess,
+  UpdateCategoryFail,
+  SetCurrentCategory,
+});
 
-export class UpdateCategorySuccess implements Action {
-  readonly type = CategoryActionTypes.UpdateCategorySuccess;
+export type CategoryUnion = typeof CategoryActions;
 
-}
-
-export class UpdateCategoryFail implements Action {
-  readonly type = CategoryActionTypes.UpdateCategoryFail;
-
-  constructor(public payload: string) {}
-}
-export class GetCategory implements Action {
-  readonly type = CategoryActionTypes.GetCategory;
-
-  constructor(public payload: number) {}
-}
-
-export class GetCategorySuccess implements Action {
-  readonly type = CategoryActionTypes.GetCategorySuccess;
-
-  constructor(public payload: Category) {}
-}
-
-export class GetCategoryFail implements Action {
-  readonly type = CategoryActionTypes.GetCategoryFail;
-
-  constructor(public payload: string) {}
-}
-
-
-export type CategoryActions = LoadCategories
-| LoadCategorySuccess
-| LoadCategoryFail
-| UpdateCategory
-| UpdateCategorySuccess
-| UpdateCategoryFail
-| GetCategory
-| GetCategorySuccess
-| GetCategoryFail;
