@@ -1,78 +1,89 @@
-import * as fromRoot from '../../state/sport.reducer';
-import { TeamActions, TeamActionTypes } from './team.actions';
+import * as fromRoot from '../../state/Team.reducer';
+import * as fromActions from './team.actions';
 import { Team } from 'src/app/team';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 export interface State extends fromRoot.State {
   team: TeamState;
 }
 export const teamFeatureKey = 'team';
 
-export interface TeamState {
-  currentTeamid: number;
-  teams: Team[];
-  loaded: boolean;
-  loading: boolean;
-  error: string;
+export const teamAdapter: EntityAdapter<
+  Team
+> = createEntityAdapter<Team>({});
+
+export interface TeamState
+  extends EntityState<Team> {
+    currentid: number;
+    loaded: boolean;
+    loading: boolean;
+    error: string;
 }
 
-export const initialState: TeamState = {
-  currentTeamid: 0,
-  teams: [],
-  loaded: false,
-  loading: false,
-  error: '',
-};
+export const initialState: TeamState = teamAdapter.getInitialState(
+  {
+    currentid: 0,
+    loaded: false,
+    loading: false,
+    error: '',
+  }
+);
 
-export function reducer(state = initialState, action: TeamActions): TeamState {
-  let updatedTeams: Team[];
+
+export const {
+  selectIds: selectTeamIds,
+  selectEntities: selectTeamEntities,
+  selectAll: selectAllTeam,
+  selectTotal: teamsCount
+} = teamAdapter.getSelectors();
+
+export function reducer(state = initialState, action: fromActions.TeamUnion): TeamState {
   switch (action.type) {
 
-    case TeamActionTypes.LoadTeamsLocation:
+    case fromActions.LoadTeams.type:
       return { ...state, loaded: false, loading: true };
-
-    case TeamActionTypes.LoadTeamsCategory:
-      return { ...state, loaded: false, loading: true };
-
-    case TeamActionTypes.LoadTeamSuccess:
-      return {
-          ...state,
-          loaded: true,
-          loading: false,
-          teams: action.payload,
-          error: '',
-      };
-
-    case TeamActionTypes.GetTeam:
-      return { ...state, currentTeamid: action.payload };
-
-    case TeamActionTypes.GetTeamSuccess:
-        const TeamRecord = action.payload;
-        if (state.teams.find(p => p.id === TeamRecord.id)) {
-            updatedTeams = state.teams.map(item =>
-            action.payload.id === item.id ? TeamRecord : item
-          );
-          }
+    case fromActions.LoadTeamSuccess.type:
         return {
-          ...state,
-          teams: updatedTeams,
-          loaded: true,
-          loading: false,
-          currentTeamid: action.payload.id,
+          ...teamAdapter.addAll(
+            action.payload.Team,
+            state
+          ),
+            loaded: true,
+            loading: false,
+            error: '',
         };
-
-        case TeamActionTypes.UpdateTeam:
-          updatedTeams = state.teams.map(item =>
-            action.payload.id === item.id ? action.payload : item
-          );
-          return { ...state, teams: updatedTeams, loaded: false, loading: true };
-
-          case TeamActionTypes.UpdateTeamSuccess:
-            return {
-              ...state,
-              loaded: true,
-              loading: false,
-            };
+    case fromActions.UpdateTeams.type:
+        return {
+          ...teamAdapter.upsertOne(
+          action.payload.Team,
+          state
+        ),
+         loaded: false, loading: true };
+    case fromActions.UpdateTeamSuccess.type:
+        return {
+                ...state,
+                loaded: true,
+                loading: false,
+              };
+              case fromActions.SetCurrentTeam.type:
+                return {
+                  ...state,
+                 currentid: action.payload.id};
     default:
       return state;
   }
+
 }
+
+export const getLoading = (
+  state: TeamState
+) => (state ? state.loading : null);
+
+export const getLoaded = (
+  state: TeamState
+) => (state ? state.loaded : null);
+
+export const getCurrentid = (
+  state: TeamState
+) => (state ? state.currentid : null);
+

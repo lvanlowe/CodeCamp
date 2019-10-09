@@ -31,10 +31,10 @@ export const initialState: SportState = sportAdapter.getInitialState(
 
 
 export const {
-  selectIds: selectArticleIds,
+  selectIds: selectSportIds,
   selectEntities: selectSportEntities,
   selectAll: selectAllSport,
-  selectTotal: articlesCount
+  selectTotal: sportsCount
 } = sportAdapter.getSelectors();
 
 export function reducer(state = initialState, action: fromActions.SportUnion): SportState {

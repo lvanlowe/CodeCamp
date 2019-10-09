@@ -1,75 +1,89 @@
 import * as fromRoot from '../../state/sport.reducer';
-import { LocationActions, LocationActionTypes } from './location.actions';
+import * as fromActions from './location.actions';
 import { Program } from 'src/app/location';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 export interface State extends fromRoot.State {
   location: LocationState;
 }
 export const locationFeatureKey = 'location';
 
-export interface LocationState {
-  currentLocationid: number;
-  locations: Program[];
-  loaded: boolean;
-  loading: boolean;
-  error: string;
+export const locationAdapter: EntityAdapter<
+  Program
+> = createEntityAdapter<Program>({});
+
+export interface LocationState
+  extends EntityState<Program> {
+    currentid: number;
+    loaded: boolean;
+    loading: boolean;
+    error: string;
 }
 
-export const initialState: LocationState = {
-  currentLocationid: 0,
-  locations: [],
-  loaded: false,
-  loading: false,
-  error: '',
-};
+export const initialState: LocationState = locationAdapter.getInitialState(
+  {
+    currentid: 0,
+    loaded: false,
+    loading: false,
+    error: '',
+  }
+);
 
-export function reducer(state = initialState, action: LocationActions): LocationState {
-  let updatedLocations: Program[];
+
+export const {
+  selectIds: selectLocationIds,
+  selectEntities: selectLocationEntities,
+  selectAll: selectAllLocation,
+  selectTotal: locationsCount
+} = locationAdapter.getSelectors();
+
+export function reducer(state = initialState, action: fromActions.LocationUnion): LocationState {
   switch (action.type) {
 
-    case LocationActionTypes.LoadLocations:
+    case fromActions.LoadLocations.type:
       return { ...state, loaded: false, loading: true };
-
-    case LocationActionTypes.LoadLocationSuccess:
-      return {
-          ...state,
-          loaded: true,
-          loading: false,
-          locations: action.payload,
-          error: '',
-      };
-
-    case LocationActionTypes.GetLocation:
-      return { ...state, currentLocationid: action.payload };
-
-    case LocationActionTypes.GetLocationSuccess:
-        const LocationRecord = action.payload;
-        if (state.locations.find(p => p.id === LocationRecord.id)) {
-            updatedLocations = state.locations.map(item =>
-            action.payload.id === item.id ? LocationRecord : item
-          );
-          }
+    case fromActions.LoadLocationSuccess.type:
         return {
-          ...state,
-          locations: updatedLocations,
-          loaded: true,
-          loading: false,
-          currentLocationid: action.payload.id,
+          ...locationAdapter.addAll(
+            action.payload.Location,
+            state
+          ),
+            loaded: true,
+            loading: false,
+            error: '',
         };
-
-        case LocationActionTypes.UpdateLocation:
-          updatedLocations = state.locations.map(item =>
-            action.payload.id === item.id ? action.payload : item
-          );
-          return { ...state, locations: updatedLocations, loaded: false, loading: true };
-
-          case LocationActionTypes.UpdateLocationSuccess:
-            return {
-              ...state,
-              loaded: true,
-              loading: false,
-            };
+    case fromActions.UpdateLocations.type:
+        return {
+          ...locationAdapter.upsertOne(
+          action.payload.Location,
+          state
+        ),
+         loaded: false, loading: true };
+    case fromActions.UpdateLocationSuccess.type:
+        return {
+                ...state,
+                loaded: true,
+                loading: false,
+              };
+              case fromActions.SetCurrentLocation.type:
+                return {
+                  ...state,
+                 currentid: action.payload.id};
     default:
       return state;
   }
+
 }
+
+export const getLoading = (
+  state: LocationState
+) => (state ? state.loading : null);
+
+export const getLoaded = (
+  state: LocationState
+) => (state ? state.loaded : null);
+
+export const getCurrentid = (
+  state: LocationState
+) => (state ? state.currentid : null);
+
