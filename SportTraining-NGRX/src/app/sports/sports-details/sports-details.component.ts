@@ -8,6 +8,10 @@ import { Program } from 'src/app/location';
 import { LocationService } from '../service/location.service';
 import { Category } from 'src/app/category';
 import { CategoryService } from '../service/category.service';
+import { Store, select } from '@ngrx/store';
+import * as fromSport from '../state/sport.reducer';
+import * as sportActions from '../state/sport.actions';
+import * as sportSelector from '../state/sport.selector';
 
 @Component({
   selector: 'app-sports-details',
@@ -20,10 +24,15 @@ export class SportsDetailsComponent implements OnInit {
   sport: Sport;
   locations: Program[];
   categories: Category[];
+  isLocationLoading: boolean;
+  isLocationLoaded: boolean;
+  isCategoryLoading: boolean;
+  isCategoryLoaded: boolean;
+
 
   constructor(
     private route: ActivatedRoute,
-    private sportService: SportService,
+    private store: Store<fromSport.State>,
     private locationService: LocationService,
     private categoryService: CategoryService,
     private location: Location
@@ -37,7 +46,15 @@ export class SportsDetailsComponent implements OnInit {
 
   getSport(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.sportService.getSport(id).subscribe(sport => (this.sport = sport));
+    this.store.dispatch(sportActions.SetCurrentSport({id: id}));
+    const sportDetail$ = this.store.pipe(select(sportSelector.selectSport));
+    // this.store.dispatch(new sportActions.GetSport(id));
+    // const sportDetail$ = this.store.pipe(select(sportSelector.getSport));
+    sportDetail$.subscribe(results => {
+      this.sport = Object.assign({}, results);
+    });
+    // this.store.dispatch(new locationActions.LoadLocations(id));
+    // this.store.dispatch(new categoryActions.LoadCategories(id));
     return id;
   }
 
@@ -50,9 +67,7 @@ export class SportsDetailsComponent implements OnInit {
   }
 
   updateSports(): void {
-    this.sportService.updateSport(this.sport);
-    this.sportService.getSport(this.sport.id).subscribe(sport => (this.sport = sport));
-    console.warn(this.sport);
+    this.store.dispatch( sportActions.UpdateSports({sport: this.sport}));
   }
 
   goBack(): void {
