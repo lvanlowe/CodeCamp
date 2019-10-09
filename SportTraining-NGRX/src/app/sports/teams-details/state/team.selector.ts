@@ -1,35 +1,34 @@
-import { TeamState } from './team.reducer';
+import * as fromTeamState from './team.reducer';
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
-const getteamsFeatureState = createFeatureSelector<TeamState>('team');
 
-export const getTeams = createSelector(
-  getteamsFeatureState,
-  state => (state ? state.teams : null)
-);
-
-export const getCurrentTeamId = createSelector(
-  getteamsFeatureState,
-  state => (state ? state.currentTeamid : null)
-);
-
-export const getTeam = createSelector(
-  getteamsFeatureState,
-  getCurrentTeamId,
-  (state, currentTeamid) => {
-    if (currentTeamid === null) {
-      return null;
-    }
-    return state ? state.teams.find(s => s.id === currentTeamid) : null;
-  }
-);
+export const getTeamState = createFeatureSelector<
+fromTeamState.TeamState
+>('team');
 
 export const getTeamLoadingIndicator = createSelector(
-  getteamsFeatureState,
-  state => (state ? state.loading : null)
+  getTeamState,
+  fromTeamState.getLoading
 );
 
 export const getTeamLoadedIndicator = createSelector(
-  getteamsFeatureState,
-  state => (state ? state.loaded : null)
+  getTeamState,
+  fromTeamState.getLoaded
 );
+
+export const getTeamCurrentid = createSelector(
+  getTeamState,
+  fromTeamState.getCurrentid
+);
+
+export const selectAllTeams = createSelector(getTeamState, fromTeamState.selectAllTeam);
+
+export const selectTeamEntities = createSelector(getTeamState, fromTeamState.selectTeamEntities);
+
+export const selectTeam = createSelector(
+  getTeamCurrentid,
+  selectTeamEntities,
+  (id, TeamEntities) => TeamEntities[id]
+);
+
+

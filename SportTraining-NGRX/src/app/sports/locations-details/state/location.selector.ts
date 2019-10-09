@@ -1,35 +1,33 @@
-import { LocationState } from './location.reducer';
+import * as fromLocationState from './location.reducer';
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
-const getLocationsFeatureState = createFeatureSelector<LocationState>('location');
-
-export const getLocations = createSelector(
-  getLocationsFeatureState,
-  state => (state ? state.locations : null)
-);
-
-export const getCurrentLocationId = createSelector(
-  getLocationsFeatureState,
-  state => (state ? state.currentLocationid : null)
-);
-
-export const getLocation = createSelector(
-  getLocationsFeatureState,
-  getCurrentLocationId,
-  (state, currentLocationid) => {
-    if (currentLocationid === null) {
-      return null;
-    }
-    return state ? state.locations.find(s => s.id === currentLocationid) : null;
-  }
-);
+export const getLocationState = createFeatureSelector<
+fromLocationState.LocationState
+>('location');
 
 export const getLocationLoadingIndicator = createSelector(
-  getLocationsFeatureState,
-  state => (state ? state.loading : null)
+  getLocationState,
+  fromLocationState.getLoading
 );
 
 export const getLocationLoadedIndicator = createSelector(
-  getLocationsFeatureState,
-  state => (state ? state.loaded : null)
+  getLocationState,
+  fromLocationState.getLoaded
 );
+
+export const getLocationCurrentid = createSelector(
+  getLocationState,
+  fromLocationState.getCurrentid
+);
+
+export const selectAllLocations = createSelector(getLocationState, fromLocationState.selectAllLocation);
+
+export const selectLocationEntities = createSelector(getLocationState, fromLocationState.selectLocationEntities);
+
+export const selectLocation = createSelector(
+  getLocationCurrentid,
+  selectLocationEntities,
+  (id, LocationEntities) => LocationEntities[id]
+);
+
+

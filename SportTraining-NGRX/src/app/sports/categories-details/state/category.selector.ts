@@ -1,35 +1,33 @@
-import { CategoryState } from './category.reducer';
+import * as fromCategoryState from './category.reducer';
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
-const getCategoriesFeatureState = createFeatureSelector<CategoryState>('category');
-
-export const getCategories = createSelector(
-  getCategoriesFeatureState,
-  state => (state ? state.categories : null)
-);
-
-export const getCurrentCategoryId = createSelector(
-  getCategoriesFeatureState,
-  state => (state ? state.currentCategoryid : null)
-);
-
-export const getCategory = createSelector(
-  getCategoriesFeatureState,
-  getCurrentCategoryId,
-  (state, currentCategoryid) => {
-    if (currentCategoryid === null) {
-      return null;
-    }
-    return state ? state.categories.find(s => s.id === currentCategoryid) : null;
-  }
-);
+export const getCategoryState = createFeatureSelector<
+fromCategoryState.CategoryState
+>('category');
 
 export const getCategoryLoadingIndicator = createSelector(
-  getCategoriesFeatureState,
-  state => (state ? state.loading : null)
+  getCategoryState,
+  fromCategoryState.getLoading
 );
 
 export const getCategoryLoadedIndicator = createSelector(
-  getCategoriesFeatureState,
-  state => (state ? state.loaded : null)
+  getCategoryState,
+  fromCategoryState.getLoaded
 );
+
+export const getCategoryCurrentid = createSelector(
+  getCategoryState,
+  fromCategoryState.getCurrentid
+);
+
+export const selectAllCategories = createSelector(getCategoryState, fromCategoryState.selectAllCategory);
+
+export const selectCategoryEntities = createSelector(getCategoryState, fromCategoryState.selectCategoryEntities);
+
+export const selectCategory = createSelector(
+  getCategoryCurrentid,
+  selectCategoryEntities,
+  (id, CategoryEntities) => CategoryEntities[id]
+);
+
+
