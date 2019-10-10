@@ -31,4 +31,9 @@ export const selectTeam = createSelector(
   (id, TeamEntities) => TeamEntities[id]
 );
 
+export const selectTeamsBySport = createSelector(
+  getTeamCurrentid,
+  selectAllTeams,
+  (sportid, teams) => teams.filter(team => team.sportid === sportid)
+);
 
