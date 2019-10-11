@@ -12,6 +12,10 @@ import { Store, select } from '@ngrx/store';
 import * as fromSport from '../state/sport.reducer';
 import * as sportActions from '../state/sport.actions';
 import * as sportSelector from '../state/sport.selector';
+import * as locationSelector from '../locations-details/state/location.selector';
+import * as locationActions from '../locations-details/state/location.actions';
+import * as categorySelector from '../categories-details/state/category.selector';
+import * as categoryActions from '../categories-details/state/category.actions';
 
 @Component({
   selector: 'app-sports-details',
@@ -48,22 +52,53 @@ export class SportsDetailsComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(sportActions.SetCurrentSport({id: id}));
     const sportDetail$ = this.store.pipe(select(sportSelector.selectSport));
-    // this.store.dispatch(new sportActions.GetSport(id));
-    // const sportDetail$ = this.store.pipe(select(sportSelector.getSport));
     sportDetail$.subscribe(results => {
       this.sport = Object.assign({}, results);
     });
-    // this.store.dispatch(new locationActions.LoadLocations(id));
-    // this.store.dispatch(new categoryActions.LoadCategories(id));
+
     return id;
   }
 
   getLocations(sportid: number): void {
-    this.locationService.getLocationsBySport(sportid).subscribe(locations => (this.locations = locations));
+    this.store.dispatch(locationActions.SetCurrentSport({id: sportid}));
+    const locationLoaded$ = this.store.pipe(select(locationSelector.getLocationLoadedIndicator));
+    locationLoaded$.subscribe(results => {
+      this.isLocationLoaded = results;
+    });
+    if (!this.isLocationLoaded) {
+      this.store.dispatch(
+        locationActions.LoadLocations({}));
+    }
+    this.store.pipe(select(locationSelector.getLocationLoadingIndicator)).subscribe(loading => {
+      this.isLocationLoading = loading;
+      if (!this.isLocationLoading) {
+        const location$ = this.store.pipe(select(locationSelector.selectLocationBySport));
+        location$.subscribe(results => {
+          this.locations = results;
+        });
+      }
+    });
   }
 
   getCategories(sportid: number): void {
-    this.categoryService.getCategoriesBySport(sportid).subscribe(categories => (this.categories = categories));
+    this.store.dispatch(categoryActions.SetCurrentSport({id: sportid}));
+    const categoryLoaded$ = this.store.pipe(select(categorySelector.getCategoryLoadedIndicator));
+    categoryLoaded$.subscribe(results => {
+      this.isCategoryLoaded = results;
+    });
+    if (!this.isCategoryLoaded) {
+      this.store.dispatch(
+        categoryActions.LoadCategories({}));
+    }
+    this.store.pipe(select(categorySelector.getCategoryLoadingIndicator)).subscribe(loading => {
+      this.isCategoryLoading = loading;
+      if (!this.isCategoryLoading) {
+        const category$ = this.store.pipe(select(categorySelector.selectCategoryBySport));
+        category$.subscribe(results => {
+          this.categories = results;
+        });
+      }
+    });
   }
 
   updateSports(): void {

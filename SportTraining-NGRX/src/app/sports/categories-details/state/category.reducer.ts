@@ -18,6 +18,7 @@ export const categoryAdapter: EntityAdapter<
 export interface CategoryState
   extends EntityState<Category> {
     currentid: number;
+    currentSportid: number;
     loaded: boolean;
     loading: boolean;
     error: string;
@@ -26,6 +27,7 @@ export interface CategoryState
 export const initialState: CategoryState = categoryAdapter.getInitialState(
   {
     currentid: 0,
+    currentSportid: 0,
     loaded: false,
     loading: false,
     error: '',
@@ -43,6 +45,8 @@ export const {
 export function reducer(state = initialState, action: fromActions.CategoryUnion): CategoryState {
   switch (action.type) {
 
+    case fromActions.SetCurrentSport.type:
+      return { ...state, currentSportid: action.payload.id };
     case fromActions.LoadCategories.type:
       return { ...state, loaded: false, loading: true };
     case fromActions.LoadCategorySuccess.type:
@@ -89,4 +93,8 @@ export const getLoaded = (
 export const getCurrentid = (
   state: CategoryState
 ) => (state ? state.currentid : null);
+
+export const getCurrentSport = (
+  state: CategoryState
+) => (state ? state.currentSportid : null);
 

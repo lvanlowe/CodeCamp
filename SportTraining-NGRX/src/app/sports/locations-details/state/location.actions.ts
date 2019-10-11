@@ -37,6 +37,11 @@ export const SetCurrentLocation = createAction(
   (payload: { id: number }) => ({ payload })
 );
 
+export const SetCurrentSport = createAction(
+  '[Location] Set Current Sport',
+  (payload: { id: number }) => ({ payload })
+);
+
 const LocationActions = union({
   LoadLocations,
   LoadLocationSuccess,
@@ -45,6 +50,7 @@ const LocationActions = union({
   UpdateLocationSuccess,
   UpdateLocationFail,
   SetCurrentLocation,
+  SetCurrentSport,
 });
 
 export type LocationUnion = typeof LocationActions;

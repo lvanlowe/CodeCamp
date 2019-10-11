@@ -20,6 +20,11 @@ export const getLocationCurrentid = createSelector(
   fromLocationState.getCurrentid
 );
 
+export const getLocationCurrentSport = createSelector(
+  getLocationState,
+  fromLocationState.getCurrentSport
+);
+
 export const selectAllLocations = createSelector(getLocationState, fromLocationState.selectAllLocation);
 
 export const selectLocationEntities = createSelector(getLocationState, fromLocationState.selectLocationEntities);
@@ -28,6 +33,12 @@ export const selectLocation = createSelector(
   getLocationCurrentid,
   selectLocationEntities,
   (id, LocationEntities) => LocationEntities[id]
+);
+
+export const selectLocationBySport = createSelector(
+  getLocationCurrentSport,
+  selectAllLocations,
+  (sportid, locations) => locations.filter(location => location.sportid === sportid)
 );
 
 

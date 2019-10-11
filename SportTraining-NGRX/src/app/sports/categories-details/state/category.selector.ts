@@ -20,6 +20,11 @@ export const getCategoryCurrentid = createSelector(
   fromCategoryState.getCurrentid
 );
 
+export const getCategoryCurrentSport = createSelector(
+  getCategoryState,
+  fromCategoryState.getCurrentSport
+);
+
 export const selectAllCategories = createSelector(getCategoryState, fromCategoryState.selectAllCategory);
 
 export const selectCategoryEntities = createSelector(getCategoryState, fromCategoryState.selectCategoryEntities);
@@ -30,4 +35,9 @@ export const selectCategory = createSelector(
   (id, CategoryEntities) => CategoryEntities[id]
 );
 
+export const selectCategoryBySport = createSelector(
+  getCategoryCurrentSport,
+  selectAllCategories,
+  (sportid, categories) => categories.filter(category => category.sportid === sportid)
+);
 

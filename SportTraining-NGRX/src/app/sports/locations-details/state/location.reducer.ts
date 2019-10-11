@@ -15,6 +15,7 @@ export const locationAdapter: EntityAdapter<
 export interface LocationState
   extends EntityState<Program> {
     currentid: number;
+    currentSportid: number;
     loaded: boolean;
     loading: boolean;
     error: string;
@@ -23,6 +24,7 @@ export interface LocationState
 export const initialState: LocationState = locationAdapter.getInitialState(
   {
     currentid: 0,
+    currentSportid: 0,
     loaded: false,
     loading: false,
     error: '',
@@ -40,6 +42,8 @@ export const {
 export function reducer(state = initialState, action: fromActions.LocationUnion): LocationState {
   switch (action.type) {
 
+    case fromActions.SetCurrentSport.type:
+      return { ...state, currentSportid: action.payload.id };
     case fromActions.LoadLocations.type:
       return { ...state, loaded: false, loading: true };
     case fromActions.LoadLocationSuccess.type:
@@ -86,4 +90,8 @@ export const getLoaded = (
 export const getCurrentid = (
   state: LocationState
 ) => (state ? state.currentid : null);
+
+export const getCurrentSport = (
+  state: LocationState
+) => (state ? state.currentSportid : null);
 

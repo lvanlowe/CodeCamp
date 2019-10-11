@@ -37,6 +37,11 @@ export const SetCurrentCategory = createAction(
   (payload: { id: number }) => ({ payload })
 );
 
+export const SetCurrentSport = createAction(
+  '[Category] Set Current Sport',
+  (payload: { id: number }) => ({ payload })
+);
+
 const CategoryActions = union({
   LoadCategories,
   LoadCategorySuccess,
@@ -45,6 +50,7 @@ const CategoryActions = union({
   UpdateCategorySuccess,
   UpdateCategoryFail,
   SetCurrentCategory,
+  SetCurrentSport,
 });
 
 export type CategoryUnion = typeof CategoryActions;
