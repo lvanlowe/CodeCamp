@@ -36,7 +36,7 @@ export class CategoriesDetailsComponent implements OnInit {
 
   getCategory(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(categoryActions.SetCurrentSport({id: id}));
+    this.store.dispatch(categoryActions.SetCurrentCategory({id: id}));
     const categoryDetail$ = this.store.pipe(select(categorySelector.selectCategory));
     categoryDetail$.subscribe(results => {
       this.category = Object.assign({}, results);

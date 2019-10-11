@@ -36,7 +36,7 @@ export class LocationsDetailsComponent implements OnInit {
 
   getLocation(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(locationActions.SetCurrentSport({id: id}));
+    this.store.dispatch(locationActions.SetCurrentLocation({id: id}));
     const locationDetail$ = this.store.pipe(select(locationSelector.selectLocation));
     locationDetail$.subscribe(results => {
       this.place = Object.assign({}, results);

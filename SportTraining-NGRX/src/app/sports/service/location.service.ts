@@ -35,6 +35,6 @@ export class LocationService {
     updateLocation(location: Program) {
       // TODO: send the message _after_ fetching the hero
       this.messageService.add(`LocationService: update location id=${location.id}`);
-      return this.http.put(`/api/locations${location.id}`, location);
+      return this.http.put(`/api/locations/${location.id}`, location);
     }
 }

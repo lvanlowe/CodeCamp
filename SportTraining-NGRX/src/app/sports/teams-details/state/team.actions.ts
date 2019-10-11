@@ -38,12 +38,12 @@ export const SetCurrentTeam = createAction(
 );
 
 export const SetCurrentLocation = createAction(
-  '[Location] Set Current Location',
+  '[Team] Set Current Location',
   (payload: { id: number }) => ({ payload })
 );
 
 export const SetCurrentCategory = createAction(
-  '[Location] Set Current Category',
+  '[Team] Set Current Category',
   (payload: { id: number }) => ({ payload })
 );
 
