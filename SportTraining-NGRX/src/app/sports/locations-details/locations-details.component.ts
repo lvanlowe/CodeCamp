@@ -41,7 +41,6 @@ export class LocationsDetailsComponent implements OnInit {
     locationDetail$.subscribe(results => {
       this.place = Object.assign({}, results);
     });
-    // this.store.dispatch(new teamActions.LoadTeamsLocation(id));
     return id;
   }
 

@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { SportService } from '../service/sport.service';
 import { Sport } from 'src/app/sport';
 import { Program } from 'src/app/location';
-import { LocationService } from '../service/location.service';
 import { Category } from 'src/app/category';
-import { CategoryService } from '../service/category.service';
+
 import { Store, select } from '@ngrx/store';
 import * as fromSport from '../state/sport.reducer';
 import * as sportActions from '../state/sport.actions';
@@ -37,8 +35,6 @@ export class SportsDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<fromSport.State>,
-    private locationService: LocationService,
-    private categoryService: CategoryService,
     private location: Location
   ) {}
 

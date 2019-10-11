@@ -41,7 +41,6 @@ export class CategoriesDetailsComponent implements OnInit {
     categoryDetail$.subscribe(results => {
       this.category = Object.assign({}, results);
     });
-    // this.store.dispatch(new teamActions.LoadTeamsCategory(id));
     return id;
   }
 
