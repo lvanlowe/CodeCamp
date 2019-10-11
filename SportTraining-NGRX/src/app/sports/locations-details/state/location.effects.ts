@@ -23,7 +23,7 @@ export class LocationEffects {
         .pipe(
           map((entities: Program[]) =>
             fromActions.LoadLocationSuccess({
-              locations: entities,
+              location: entities,
             })
           ),
           catchError(({ message }) =>
@@ -46,7 +46,7 @@ export class LocationEffects {
         .pipe(
           map((entities: Program) =>
             fromActions.UpdateLocationSuccess({
-              Locations: entities,
+              location: entities,
             })
           ),
           catchError(({ message }) =>
@@ -60,5 +60,5 @@ export class LocationEffects {
     )
   );
 
- 
+
 }

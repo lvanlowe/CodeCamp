@@ -33,28 +33,28 @@ export class CategoriesDetailsComponent implements OnInit {
 
     this.store.pipe(select(teamSelector.getTeamLoadingIndicator)).subscribe(loading => {
       this.isTeamLoading = loading;
-      if (!this.isTeamLoading) {
-        const location$ = this.store.pipe(select(teamSelector.getTeams));
-        location$.subscribe(results => {
-          this.teams = results;
-        });
-      }
+      // if (!this.isTeamLoading) {
+      //   // const location$ = this.store.pipe(select(teamSelector.getTeams));
+      //   // location$.subscribe(results => {
+      //   //   this.teams = results;
+      //   });
+      // }
     });
   }
 
   getCategory(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new categoryActions.GetCategory(id));
-    const categoryDetail$ = this.store.pipe(select(categorySelector.getCategory));
-    categoryDetail$.subscribe(results => {
-      this.category = Object.assign({}, results);
-    });
-    this.store.dispatch(new teamActions.LoadTeamsCategory(id));
+    // this.store.dispatch(new categoryActions.GetCategory(id));
+    // const categoryDetail$ = this.store.pipe(select(categorySelector.getCategory));
+    // categoryDetail$.subscribe(results => {
+    //   this.category = Object.assign({}, results);
+    // });
+    // this.store.dispatch(new teamActions.LoadTeamsCategory(id));
     return id;
   }
 
   updateCategory(): void {
-    this.store.dispatch(new categoryActions.UpdateCategory(this.category));
+    // this.store.dispatch(new categoryActions.UpdateCategory(this.category));
   }
 
   goBack(): void {

@@ -1,4 +1,4 @@
-import * as fromRoot from '../../state/Team.reducer';
+import * as fromRoot from '../../state/sport.reducer';
 import * as fromActions from './team.actions';
 import { Team } from 'src/app/team';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: fromActions.TeamUnion): Te
     case fromActions.LoadTeamSuccess.type:
         return {
           ...teamAdapter.addAll(
-            action.payload.Team,
+            action.payload.team,
             state
           ),
             loaded: true,
@@ -55,7 +55,7 @@ export function reducer(state = initialState, action: fromActions.TeamUnion): Te
     case fromActions.UpdateTeams.type:
         return {
           ...teamAdapter.upsertOne(
-          action.payload.Team,
+          action.payload.team,
           state
         ),
          loaded: false, loading: true };

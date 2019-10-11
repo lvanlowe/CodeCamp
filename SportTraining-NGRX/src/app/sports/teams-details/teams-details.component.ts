@@ -28,13 +28,13 @@ export class TeamsDetailsComponent implements OnInit {
 
   getTeam(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new teamActions.GetTeam(id));
+    // this.store.dispatch(new teamActions.GetTeam(id));
     this.teamService.getTeam(id).subscribe(team => (this.team = team));
     return id;
   }
 
   updateTeams(): void {
-    this.store.dispatch(new teamActions.UpdateTeam(this.team));
+    // this.store.dispatch(new teamActions.UpdateTeam(this.team));
   }
 
   goBack(): void {

@@ -34,27 +34,27 @@ export class LocationsDetailsComponent implements OnInit {
     this.store.pipe(select(teamSelector.getTeamLoadingIndicator)).subscribe(loading => {
       this.isTeamLoading = loading;
       if (!this.isTeamLoading) {
-        const location$ = this.store.pipe(select(teamSelector.getTeams));
-        location$.subscribe(results => {
-          this.teams = results;
-        });
+        // const location$ = this.store.pipe(select(teamSelector.getTeams));
+        // location$.subscribe(results => {
+        //   this.teams = results;
+        // });
       }
     });
   }
 
   getLocation(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new locationActions.GetLocation(id));
-    const locationDetail$ = this.store.pipe(select(locationSelector.getLocation));
-    locationDetail$.subscribe(results => {
-      this.place = Object.assign({}, results);
-    });
-    this.store.dispatch(new teamActions.LoadTeamsLocation(id));
+    // this.store.dispatch(new locationActions.GetLocation(id));
+    // const locationDetail$ = this.store.pipe(select(locationSelector.getLocation));
+    // locationDetail$.subscribe(results => {
+    //   this.place = Object.assign({}, results);
+    // });
+    // this.store.dispatch(new teamActions.LoadTeamsLocation(id));
     return id;
   }
 
   updateLocation(): void {
-    this.store.dispatch(new locationActions.UpdateLocation(this.place));
+    // this.store.dispatch(new locationActions.UpdateLocation(this.place));
   }
 
   goBack(): void {

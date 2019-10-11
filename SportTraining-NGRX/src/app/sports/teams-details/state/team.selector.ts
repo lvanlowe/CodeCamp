@@ -34,6 +34,6 @@ export const selectTeam = createSelector(
 export const selectTeamsBySport = createSelector(
   getTeamCurrentid,
   selectAllTeams,
-  (sportid, teams) => teams.filter(team => team.sportid === sportid)
+  (locationid, teams) => teams.filter(team => team.locationid === locationid)
 );
 

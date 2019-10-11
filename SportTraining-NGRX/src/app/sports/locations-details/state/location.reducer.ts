@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: fromActions.LocationUnion)
     case fromActions.LoadLocationSuccess.type:
         return {
           ...locationAdapter.addAll(
-            action.payload.Location,
+            action.payload.location,
             state
           ),
             loaded: true,
@@ -55,7 +55,7 @@ export function reducer(state = initialState, action: fromActions.LocationUnion)
     case fromActions.UpdateLocations.type:
         return {
           ...locationAdapter.upsertOne(
-          action.payload.Location,
+          action.payload.location,
           state
         ),
          loaded: false, loading: true };
