@@ -21,6 +21,11 @@ export const getTeamCurrentid = createSelector(
   fromTeamState.getCurrentid
 );
 
+export const getTeamCurrentLocation = createSelector(
+  getTeamState,
+  fromTeamState.getCurrentLocation
+);
+
 export const selectAllTeams = createSelector(getTeamState, fromTeamState.selectAllTeam);
 
 export const selectTeamEntities = createSelector(getTeamState, fromTeamState.selectTeamEntities);
@@ -31,8 +36,8 @@ export const selectTeam = createSelector(
   (id, TeamEntities) => TeamEntities[id]
 );
 
-export const selectTeamsBySport = createSelector(
-  getTeamCurrentid,
+export const selectTeamsByLocation = createSelector(
+  getTeamCurrentLocation,
   selectAllTeams,
   (locationid, teams) => teams.filter(team => team.locationid === locationid)
 );

@@ -30,31 +30,44 @@ export class LocationsDetailsComponent implements OnInit {
 
   ngOnInit() {
     const locationid = this.getLocation();
+    this.getTeams(locationid);
 
-    this.store.pipe(select(teamSelector.getTeamLoadingIndicator)).subscribe(loading => {
-      this.isTeamLoading = loading;
-      if (!this.isTeamLoading) {
-        // const location$ = this.store.pipe(select(teamSelector.getTeams));
-        // location$.subscribe(results => {
-        //   this.teams = results;
-        // });
-      }
-    });
   }
 
   getLocation(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    // this.store.dispatch(new locationActions.GetLocation(id));
-    // const locationDetail$ = this.store.pipe(select(locationSelector.getLocation));
-    // locationDetail$.subscribe(results => {
-    //   this.place = Object.assign({}, results);
-    // });
+    this.store.dispatch(locationActions.SetCurrentSport({id: id}));
+    const locationDetail$ = this.store.pipe(select(locationSelector.selectLocation));
+    locationDetail$.subscribe(results => {
+      this.place = Object.assign({}, results);
+    });
     // this.store.dispatch(new teamActions.LoadTeamsLocation(id));
     return id;
   }
 
+    getTeams(locationid: number): void {
+      this.store.dispatch(teamActions.SetCurrentLocation({id: locationid}));
+      const teamLoaded$ = this.store.pipe(select(teamSelector.getTeamLoadedIndicator));
+      teamLoaded$.subscribe(results => {
+        this.isTeamLoaded = results;
+      });
+      if (!this.isTeamLoaded) {
+        this.store.dispatch(
+          teamActions.LoadTeams({}));
+      }
+      this.store.pipe(select(teamSelector.getTeamLoadingIndicator)).subscribe(loading => {
+        this.isTeamLoading = loading;
+        if (!this.isTeamLoading) {
+          const team$ = this.store.pipe(select(teamSelector.selectTeamsByLocation));
+          team$.subscribe(results => {
+            this.teams = results;
+          });
+        }
+      });
+    }
+
   updateLocation(): void {
-    // this.store.dispatch(new locationActions.UpdateLocation(this.place));
+    this.store.dispatch(locationActions.UpdateLocations({location: this.place}));
   }
 
   goBack(): void {
