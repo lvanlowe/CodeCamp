@@ -16,6 +16,7 @@ export interface TeamState
   extends EntityState<Team> {
     currentid: number;
     currentLocationid: number;
+    currentCategoryid: number;
     loaded: boolean;
     loading: boolean;
     error: string;
@@ -25,6 +26,7 @@ export const initialState: TeamState = teamAdapter.getInitialState(
   {
     currentid: 0,
     currentLocationid: 0,
+    currentCategoryid: 0,
     loaded: false,
     loading: false,
     error: '',
@@ -44,6 +46,8 @@ export function reducer(state = initialState, action: fromActions.TeamUnion): Te
 
     case fromActions.SetCurrentLocation.type:
       return { ...state, currentLocationid: action.payload.id };
+    case fromActions.SetCurrentCategory.type:
+      return { ...state, currentCategoryid: action.payload.id };
     case fromActions.LoadTeams.type:
       return { ...state, loaded: false, loading: true };
     case fromActions.LoadTeamSuccess.type:
@@ -94,3 +98,7 @@ export const getCurrentid = (
 export const getCurrentLocation = (
   state: TeamState
 ) => (state ? state.currentLocationid : null);
+
+export const getCurrentCategory = (
+  state: TeamState
+) => (state ? state.currentCategoryid : null);

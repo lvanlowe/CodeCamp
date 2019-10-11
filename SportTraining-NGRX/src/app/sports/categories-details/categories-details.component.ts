@@ -30,31 +30,45 @@ export class CategoriesDetailsComponent implements OnInit {
 
   ngOnInit() {
     const categoryid = this.getCategory();
+    this.getTeams(categoryid);
 
-    this.store.pipe(select(teamSelector.getTeamLoadingIndicator)).subscribe(loading => {
-      this.isTeamLoading = loading;
-      // if (!this.isTeamLoading) {
-      //   // const location$ = this.store.pipe(select(teamSelector.getTeams));
-      //   // location$.subscribe(results => {
-      //   //   this.teams = results;
-      //   });
-      // }
-    });
   }
 
   getCategory(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    // this.store.dispatch(new categoryActions.GetCategory(id));
-    // const categoryDetail$ = this.store.pipe(select(categorySelector.getCategory));
-    // categoryDetail$.subscribe(results => {
-    //   this.category = Object.assign({}, results);
-    // });
+    this.store.dispatch(categoryActions.SetCurrentSport({id: id}));
+    const categoryDetail$ = this.store.pipe(select(categorySelector.selectCategory));
+    categoryDetail$.subscribe(results => {
+      this.category = Object.assign({}, results);
+    });
     // this.store.dispatch(new teamActions.LoadTeamsCategory(id));
     return id;
   }
 
+  getTeams(categoryid: number): void {
+    this.store.dispatch(teamActions.SetCurrentCategory({id: categoryid}));
+    const teamLoaded$ = this.store.pipe(select(teamSelector.getTeamLoadedIndicator));
+    teamLoaded$.subscribe(results => {
+      this.isTeamLoaded = results;
+    });
+    if (!this.isTeamLoaded) {
+      this.store.dispatch(
+        teamActions.LoadTeams({}));
+    }
+    this.store.pipe(select(teamSelector.getTeamLoadingIndicator)).subscribe(loading => {
+      this.isTeamLoading = loading;
+      if (!this.isTeamLoading) {
+        const team$ = this.store.pipe(select(teamSelector.selectTeamsByCategory));
+        team$.subscribe(results => {
+          this.teams = results;
+        });
+      }
+    });
+
+  }
+
   updateCategory(): void {
-    // this.store.dispatch(new categoryActions.UpdateCategory(this.category));
+    this.store.dispatch(categoryActions.UpdateCategories({category: this.category}));
   }
 
   goBack(): void {

@@ -26,6 +26,11 @@ export const getTeamCurrentLocation = createSelector(
   fromTeamState.getCurrentLocation
 );
 
+export const getTeamCurrentCategory = createSelector(
+  getTeamState,
+  fromTeamState.getCurrentCategory
+);
+
 export const selectAllTeams = createSelector(getTeamState, fromTeamState.selectAllTeam);
 
 export const selectTeamEntities = createSelector(getTeamState, fromTeamState.selectTeamEntities);
@@ -42,3 +47,8 @@ export const selectTeamsByLocation = createSelector(
   (locationid, teams) => teams.filter(team => team.locationid === locationid)
 );
 
+export const selectTeamsByCategory = createSelector(
+  getTeamCurrentCategory,
+  selectAllTeams,
+  (categoryid, teams) => teams.filter(team => team.categoryid === categoryid)
+);
