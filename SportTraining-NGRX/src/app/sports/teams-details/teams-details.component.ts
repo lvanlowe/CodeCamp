@@ -4,8 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TeamService } from '../service/team.service';
 import * as fromTeam from './state/team.reducer';
+import * as teamSelector from './state/team.selector';
 import * as teamActions from '../teams-details/state/team.actions';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 @Component({
   selector: 'app-teams-details',
   templateUrl: './teams-details.component.html',
@@ -28,13 +29,16 @@ export class TeamsDetailsComponent implements OnInit {
 
   getTeam(): number {
     const id = +this.route.snapshot.paramMap.get('id');
-    // this.store.dispatch(new teamActions.GetTeam(id));
-    this.teamService.getTeam(id).subscribe(team => (this.team = team));
+    this.store.dispatch(teamActions.SetCurrentTeam({id: id}));
+    const teamDetail$ = this.store.pipe(select(teamSelector.selectTeam));
+    teamDetail$.subscribe(results => {
+      this.team = Object.assign({}, results);
+    });
     return id;
   }
 
   updateTeams(): void {
-    // this.store.dispatch(new teamActions.UpdateTeam(this.team));
+    this.store.dispatch(teamActions.UpdateTeams({team: this.team}));
   }
 
   goBack(): void {
